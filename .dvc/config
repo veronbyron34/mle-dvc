@@ -4,3 +4,5 @@
     url = s3://s3-student-mle-20250327-5578ab52f6
     endpointurl = https://storage.yandexcloud.net
     version_aware = true
+    access_key_id = YCAJE26tCTzKqvgfV8G9aEd-k
+    secret_access_key = YCO8miShSnB41jtyLQX7FRH_oz50dyFmPjEBE2uS
