@@ -17,7 +17,12 @@ stages:
       - index_col
       - target_col
       - one_hot_drop
-      - auto_class_weights
+      - handle_unknown
+      - strategy_num
+      - strategy
+      - C
+      - penalty
+      - class_weight
     outs:
       - models/fitted_model.pkl
   evaluate_model:
