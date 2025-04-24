@@ -1,5 +1,5 @@
 # dvc.yaml
-# upd 2
+# upd 3
 stages:
   get_data:
     cmd: python3 scripts/data.py

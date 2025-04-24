@@ -26,7 +26,7 @@ def fit_model():
     # Разделение признаков
     X = data.drop(params['target_col'], axis=1)  # Признаки
     y = data[params['target_col']]               # Целевая переменная
-    print(X)
+
     # Определение типов признаков
     cat_features = X.select_dtypes(include='object')
     potential_binary_features = cat_features.nunique() == 2
@@ -53,8 +53,8 @@ def fit_model():
     # Инициализация модели
     model = LogisticRegression(
         C=params['C'], 
-        penalty=params['penalty'],
-        class_weight=params['class_weight']
+        penalty=params['penalty']#,
+        #class_weight=params['class_weight']
     )
 
     # Создание пайплайна

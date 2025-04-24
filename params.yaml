@@ -1,5 +1,5 @@
 # params.yaml
-# upd 2
+# upd 3
 index_col: 'customer_id'
 target_col: 'target'
 one_hot_drop: 'if_binary'
