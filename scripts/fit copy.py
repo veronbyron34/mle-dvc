@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
+from sklearn.impute import SimpleImputer
 from category_encoders import CatBoostEncoder
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from catboost import CatBoostClassifier
@@ -26,30 +27,38 @@ def fit_model():
     # Разделение признаков
     X = data.drop(params['target_col'], axis=1)  # Признаки
     y = data[params['target_col']]               # Целевая переменная
-    print(X)
     # Определение типов признаков
-    cat_features = X.select_dtypes(include='object')
-    potential_binary_features = cat_features.nunique() == 2
+    num_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    categorical_features = X.select_dtypes(include=['object', 'category']).columns.tolist()
     
-    binary_cat_features = cat_features[potential_binary_features[potential_binary_features].index]
-    other_cat_features = cat_features[potential_binary_features[~potential_binary_features].index]
-    num_features = X.select_dtypes(include=['float', 'int'])  # Добавлены int-признаки
+    # Разделение категориальных признаков на бинарные и остальные
+    binary_cat_features = [col for col in categorical_features 
+                     if X[col].nunique() == 2]
+    other_cat_features = [col for col in categorical_features 
+                        if col not in binary_cat_features]
+    numeric_transformer = Pipeline([
+        ('imputer', SimpleImputer(strategy=params['strategy_num'])),
+        ('scaler', StandardScaler())
+    ])
+    
+    binary_transformer = Pipeline([
+        ('imputer', SimpleImputer(strategy=params['strategy'])),
+        ('encoder', OneHotEncoder(drop=params['one_hot_drop'], sparse_output=False))
+    ])
+    
+    categorical_transformer = Pipeline([
+        ('imputer', SimpleImputer(strategy=params['strategy'])),
+        ('encoder', OneHotEncoder(handle_unknown=params['handle_unknown'], sparse_output=False))
+    ])
 
-    # Создание препроцессора
-    preprocessor = ColumnTransformer(
-        [
-            ('binary', OneHotEncoder(drop=params['one_hot_drop']), 
-                binary_cat_features.columns.tolist()),
-            ('cat', OneHotEncoder(handle_unknown=params['handle_unknown']), 
-                other_cat_features.columns.tolist()),
-            ('num', StandardScaler(), 
-                num_features.columns.tolist())
-        ],
-        remainder='drop',
-        verbose_feature_names_out=False
-    )
-    
-    print(X)
+    # Создание ColumnTransformer
+    preprocessor = ColumnTransformer([
+        ('num', numeric_transformer, num_features),
+        ('binary', binary_transformer, binary_cat_features),
+        ('cat', categorical_transformer, other_cat_features)
+    ])
+
+ 
     # Инициализация модели
     model = LogisticRegression(
         C=params['C'], 
