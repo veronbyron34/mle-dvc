@@ -1,5 +1,5 @@
 # dvc.yaml
-# upd 3
+# only_sklearn_pipeline
 stages:
   get_data:
     cmd: python3 scripts/data.py

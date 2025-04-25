@@ -1,4 +1,5 @@
 # scripts/fit.py
+# only_sklearn_pipeline
 
 import pandas as pd
 from sklearn.compose import ColumnTransformer
@@ -62,8 +63,8 @@ def fit_model():
     ])
     
     # Обучение модели
-    pipeline.fit(data, data['target'])  # Четкое разделение X и y
-
+    pipeline.fit(data, data[params['target_col']] ) 
+    
     # Сохранение модели
     os.makedirs('models', exist_ok=True)
     joblib.dump(pipeline, 'models/fitted_model.pkl')  # Правильное сохранение модели

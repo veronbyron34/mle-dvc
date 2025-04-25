@@ -1,5 +1,5 @@
 ## scripts/data.py
-
+# only_sklearn_pipeline
 # 1 — импорты
 import pandas as pd
 from sqlalchemy import create_engine
