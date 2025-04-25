@@ -3,10 +3,8 @@
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LogisticRegression
-from category_encoders import CatBoostEncoder
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from catboost import CatBoostClassifier
+from sklearn.linear_model import LogisticRegression  
 import yaml
 import os
 import joblib
@@ -24,16 +22,16 @@ def fit_model():
         raise ValueError(f"Target column '{params['target_col']}' not found in data")
 
     # Разделение признаков
-    X = data.drop(params['target_col'], axis=1)  # Признаки
-    y = data[params['target_col']]               # Целевая переменная
+    #X = data.drop(params['target_col'], axis=1)  # Признаки
+    #y = data[params['target_col']]               # Целевая переменная
 
     # Определение типов признаков
-    cat_features = X.select_dtypes(include='object')
+    cat_features = data.select_dtypes(include='object')
     potential_binary_features = cat_features.nunique() == 2
     
     binary_cat_features = cat_features[potential_binary_features[potential_binary_features].index]
     other_cat_features = cat_features[potential_binary_features[~potential_binary_features].index]
-    num_features = X.select_dtypes(include=['float', 'int'])  # Добавлены int-признаки
+    num_features = data.select_dtypes(include=['float', 'int'])  # Добавлены int-признаки
 
     # Создание препроцессора
     preprocessor = ColumnTransformer(
@@ -49,7 +47,7 @@ def fit_model():
         verbose_feature_names_out=False
     )
     
-    print(X)
+ 
     # Инициализация модели
     model = LogisticRegression(
         C=params['C'], 
@@ -64,7 +62,7 @@ def fit_model():
     ])
     
     # Обучение модели
-    pipeline.fit(X, y)  # Четкое разделение X и y
+    pipeline.fit(data, data['target'])  # Четкое разделение X и y
 
     # Сохранение модели
     os.makedirs('models', exist_ok=True)
