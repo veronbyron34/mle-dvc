@@ -40,19 +40,19 @@ stages:
     outs:
     - path: models/fitted_model.pkl
       hash: md5
-      md5: a5916a258b86ef9c67fc91bc2f2606a0
-      size: 1124709
+      md5: 03ae7ea9e1af5d660df15568332af749
+      size: 1124274
       cloud:
         my_storage:
-          etag: a5916a258b86ef9c67fc91bc2f2606a0
-          version_id: 000633D302C2CBAA
+          etag: 03ae7ea9e1af5d660df15568332af749
+          version_id: 000633D3291E3085
   evaluate_model:
     cmd: python3 scripts/evaluate.py
     deps:
     - path: models/fitted_model.pkl
       hash: md5
-      md5: a5916a258b86ef9c67fc91bc2f2606a0
-      size: 1124709
+      md5: 03ae7ea9e1af5d660df15568332af749
+      size: 1124274
     - path: scripts/evaluate.py
       hash: md5
       md5: eb325a4b189d7877c55d55b1c09acad3
@@ -69,9 +69,9 @@ stages:
     outs:
     - path: cv_results/cv_res.json
       hash: md5
-      md5: 58e59d6454d9a0afd781f7acfaf87cee
-      size: 96
+      md5: b7e0bb9f3887dad66f11cf443c156b1c
+      size: 95
       cloud:
         my_storage:
-          etag: 58e59d6454d9a0afd781f7acfaf87cee
-          version_id: 000633D302C1615E
+          etag: b7e0bb9f3887dad66f11cf443c156b1c
+          version_id: 000633D3291D2D6E
