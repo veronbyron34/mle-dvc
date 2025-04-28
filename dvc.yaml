@@ -5,6 +5,7 @@ stages:
     deps:
       - scripts/data.py
     params:
+      - retrain
       - index_col
     outs:
       - data/initial_data.csv
