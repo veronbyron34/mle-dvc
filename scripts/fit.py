@@ -1,5 +1,5 @@
 # scripts/fit.py
-# only_sklearn_pipeline
+# branch only_sklearn_pipeline s-1.3.0
 
 import pandas as pd
 from sklearn.compose import ColumnTransformer
