@@ -69,6 +69,3 @@ def fit_model():
     joblib.dump(pipeline, 'models/fitted_model.pkl')  # Правильное сохранение модели
 
     print("Model successfully trained and saved!")
-
-if __name__ == '__main__':
-    fit_model()
